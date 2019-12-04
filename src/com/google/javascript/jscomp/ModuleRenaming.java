@@ -68,7 +68,7 @@ final class ModuleRenaming {
       case COMMON_JS:
         return moduleMetadata.path().toModuleName();
       case SCRIPT:
-        // fall through, throw an error
+        return moduleMetadata.path().toModuleName();
     }
     throw new IllegalStateException("Unexpected module type: " + moduleMetadata.moduleType());
   }

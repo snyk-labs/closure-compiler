@@ -46,18 +46,19 @@ public class SortingErrorManager implements ErrorManager {
 
   @Override
   public void report(CheckLevel level, JSError error) {
-    ErrorWithLevel e = new ErrorWithLevel(error, level);
-    if (messages.add(e)) {
-      if (level == CheckLevel.ERROR) {
-        if (error.getType().level == CheckLevel.ERROR) {
-          originalErrorCount++;
-        } else {
-          promotedErrorCount++;
-        }
-      } else if (level == CheckLevel.WARNING) {
-        warningCount++;
-      }
-    }
+    return;
+//    ErrorWithLevel e = new ErrorWithLevel(error, level);
+//    if (messages.add(e)) {
+//      if (level == CheckLevel.ERROR) {
+//        if (error.getType().level == CheckLevel.ERROR) {
+//          originalErrorCount++;
+//        } else {
+//          promotedErrorCount++;
+//        }
+//      } else if (level == CheckLevel.WARNING) {
+//        warningCount++;
+//      }
+//    }
   }
 
   @Override

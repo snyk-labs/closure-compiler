@@ -436,7 +436,7 @@ public final class GatherModuleMetadata implements HotSwapCompilerPass {
             return;
           case COMMON_JS:
           case SCRIPT:
-            // Fall through, error
+            return;
         }
         throw new IllegalStateException("Unexpected module type: " + existingType);
       }

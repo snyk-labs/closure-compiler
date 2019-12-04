@@ -125,56 +125,56 @@ class RhinoErrorReporter {
   // A map of Rhino messages to their DiagnosticType.
   private static final Map<Pattern, DiagnosticType> typeMap =
       ImmutableMap.<Pattern, DiagnosticType>builder()
-          // Trailing comma
-          .put(
-              Pattern.compile("Trailing comma is not legal in an ECMA-262 object initializer"),
-              TRAILING_COMMA)
-          // Duplicate parameter
-          .put(replacePlaceHolders("Duplicate parameter name \"{0}\""), DUPLICATE_PARAM)
-          .put(Pattern.compile("Unnecessary escape:.*"), UNNECESSARY_ESCAPE)
-          .put(Pattern.compile("^invalid param name.*"), INVALID_PARAM)
-          // Unknown @annotations.
-          .put(
-              replacePlaceHolders(SimpleErrorReporter.getMessage0("msg.bad.jsdoc.tag")),
-              BAD_JSDOC_ANNOTATION)
-          .put(
-              Pattern.compile(
-                  "^Keywords and reserved words are not allowed as unquoted property.*"),
-              INVALID_ES3_PROP_NAME)
-          .put(Pattern.compile("^Too many template parameters"), TOO_MANY_TEMPLATE_PARAMS)
-          // Type annotation warnings.
-          .put(
-              Pattern.compile(".*Type annotations should have curly braces.*"),
-              JSDOC_MISSING_BRACES_WARNING)
-          .put(Pattern.compile("Missing type declaration\\."), JSDOC_MISSING_TYPE_WARNING)
-          // Unresolved types that aren't forward declared.
-          .put(Pattern.compile(".*Unknown type.*"), UNRECOGNIZED_TYPE_ERROR)
-          .put(Pattern.compile(".*Unknown type.*\n.*"), UNRECOGNIZED_TYPE_ERROR)
-          // Unrecognized `typeof some.prop` errors
-          .put(Pattern.compile("^Missing type for `typeof` value.*"), UNRECOGNIZED_TYPEOF_ERROR)
-          // Import annotation errors.
-          .put(
-              Pattern.compile("^Bad type annotation. Import in typedef.*"),
-              JSDOC_IMPORT_TYPE_WARNING)
-          // Type annotation errors.
-          .put(Pattern.compile("^Bad type annotation.*"), TYPE_PARSE_ERROR)
-          // Parse tree too deep.
-          .put(Pattern.compile("Too deep recursion while parsing"), PARSE_TREE_TOO_DEEP)
-          // Old-style octal literals
-          .put(Pattern.compile("^Octal .*literal.*"), INVALID_OCTAL_LITERAL)
-          .put(Pattern.compile("^String continuations.*"), STRING_CONTINUATION)
-          .put(Pattern.compile("^This language feature is only supported for .*"), LANGUAGE_FEATURE)
-          .put(
-              Pattern.compile(
-                  "^This language feature is not currently supported by the internalReporter:"
-                      + " .*"),
-              UNSUPPORTED_LANGUAGE_FEATURE)
-          .put(Pattern.compile("^type syntax is only supported in ES6 typed mode.*"), ES6_TYPED)
-          .put(Pattern.compile("^Can only have JSDoc or inline type.*"), MISPLACED_TYPE_SYNTAX)
-          .put(
-              Pattern.compile("Bounded generic semantics are currently still in development"),
-              UNSUPPORTED_BOUNDED_GENERIC_TYPES)
-          .put(Pattern.compile("^Bounded generic type error.*"), BOUNDED_GENERIC_TYPE_ERROR)
+//          // Trailing comma
+//          .put(
+//              Pattern.compile("Trailing comma is not legal in an ECMA-262 object initializer"),
+//              TRAILING_COMMA)
+//          // Duplicate parameter
+//          .put(replacePlaceHolders("Duplicate parameter name \"{0}\""), DUPLICATE_PARAM)
+//          .put(Pattern.compile("Unnecessary escape:.*"), UNNECESSARY_ESCAPE)
+//          .put(Pattern.compile("^invalid param name.*"), INVALID_PARAM)
+//          // Unknown @annotations.
+//          .put(
+//              replacePlaceHolders(SimpleErrorReporter.getMessage0("msg.bad.jsdoc.tag")),
+//              BAD_JSDOC_ANNOTATION)
+//          .put(
+//              Pattern.compile(
+//                  "^Keywords and reserved words are not allowed as unquoted property.*"),
+//              INVALID_ES3_PROP_NAME)
+//          .put(Pattern.compile("^Too many template parameters"), TOO_MANY_TEMPLATE_PARAMS)
+//          // Type annotation warnings.
+//          .put(
+//              Pattern.compile(".*Type annotations should have curly braces.*"),
+//              JSDOC_MISSING_BRACES_WARNING)
+//          .put(Pattern.compile("Missing type declaration\\."), JSDOC_MISSING_TYPE_WARNING)
+//          // Unresolved types that aren't forward declared.
+//          .put(Pattern.compile(".*Unknown type.*"), UNRECOGNIZED_TYPE_ERROR)
+//          .put(Pattern.compile(".*Unknown type.*\n.*"), UNRECOGNIZED_TYPE_ERROR)
+//          // Unrecognized `typeof some.prop` errors
+//          .put(Pattern.compile("^Missing type for `typeof` value.*"), UNRECOGNIZED_TYPEOF_ERROR)
+//          // Import annotation errors.
+//          .put(
+//              Pattern.compile("^Bad type annotation. Import in typedef.*"),
+//              JSDOC_IMPORT_TYPE_WARNING)
+//          // Type annotation errors.
+//          .put(Pattern.compile("^Bad type annotation.*"), TYPE_PARSE_ERROR)
+//          // Parse tree too deep.
+//          .put(Pattern.compile("Too deep recursion while parsing"), PARSE_TREE_TOO_DEEP)
+//          // Old-style octal literals
+//          .put(Pattern.compile("^Octal .*literal.*"), INVALID_OCTAL_LITERAL)
+//          .put(Pattern.compile("^String continuations.*"), STRING_CONTINUATION)
+//          .put(Pattern.compile("^This language feature is only supported for .*"), LANGUAGE_FEATURE)
+//          .put(
+//              Pattern.compile(
+//                  "^This language feature is not currently supported by the internalReporter:"
+//                      + " .*"),
+//              UNSUPPORTED_LANGUAGE_FEATURE)
+//          .put(Pattern.compile("^type syntax is only supported in ES6 typed mode.*"), ES6_TYPED)
+//          .put(Pattern.compile("^Can only have JSDoc or inline type.*"), MISPLACED_TYPE_SYNTAX)
+//          .put(
+//              Pattern.compile("Bounded generic semantics are currently still in development"),
+//              UNSUPPORTED_BOUNDED_GENERIC_TYPES)
+//          .put(Pattern.compile("^Bounded generic type error.*"), BOUNDED_GENERIC_TYPE_ERROR)
           .build();
 
   private final ErrorHandler internalReporter;
@@ -205,8 +205,9 @@ class RhinoErrorReporter {
 
   void errorAtLine(String message, String sourceName, int line,
       int lineOffset) {
-    internalReporter.report(
-        null, makeError(message, sourceName, line, lineOffset, CheckLevel.ERROR));
+    return;
+//    internalReporter.report(
+//        null, makeError(message, sourceName, line, lineOffset, CheckLevel.ERROR));
   }
 
   protected static DiagnosticType mapError(String message) {
@@ -238,7 +239,8 @@ class RhinoErrorReporter {
     @Override
     public void error(String message, String sourceName, int line,
         int lineOffset) {
-      super.errorAtLine(message, sourceName, line, lineOffset);
+      return;
+      //super.errorAtLine(message, sourceName, line, lineOffset);
     }
 
     @Override

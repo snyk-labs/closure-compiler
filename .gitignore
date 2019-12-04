@@ -11,3 +11,6 @@ target/
 /bin
 /yarn.lock
 /node_modules
+
+.idea/
+*.iml

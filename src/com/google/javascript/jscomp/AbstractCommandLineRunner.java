@@ -79,6 +79,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.annotation.Nullable;
 
+import java.io.PrintWriter;
+import com.google.gson.GsonBuilder;
+import com.google.javascript.jscomp.graph.DiGraph;
+import com.google.javascript.jscomp.graph.Graph.GraphEdge;
+import com.google.javascript.jscomp.graph.GraphNode;
+
 /**
  * Implementations of AbstractCommandLineRunner translate flags into Java
  * API calls on the Compiler. AbstractCompiler contains common flags and logic
@@ -1100,6 +1106,7 @@ public abstract class AbstractCommandLineRunner<A extends Compiler,
    */
   @GwtIncompatible("Unnecessary")
   protected int doRun() throws IOException {
+    long startTime = System.nanoTime();
     Compiler.setLoggingLevel(Level.parse(config.loggingLevel));
 
     compiler = createCompiler();
