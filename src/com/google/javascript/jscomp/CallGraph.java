@@ -26,14 +26,11 @@ import com.google.javascript.jscomp.graph.DiGraph;
 import com.google.javascript.jscomp.graph.LinkedDirectedGraph;
 import com.google.javascript.rhino.Node;
 import com.google.javascript.rhino.Token;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Objects;
+
+import java.util.*;
 
 /**
- * A pass the uses a {@link DefinitionProvider} to compute a call graph for an
+ * A pass the uses a {@link NameBasedDefinitionProvider} to compute a call graph for an
  * AST.
  *
  * <p>A {@link CallGraph} connects {@link Function}s to {@link Callsite}s and
@@ -111,7 +108,7 @@ public final class CallGraph implements CompilerPass {
    *        callsites that could call a given function?
    */
   public CallGraph(AbstractCompiler compiler, boolean computeForwardGraph,
-      boolean computeBackwardGraph) {
+                   boolean computeBackwardGraph) {
     Preconditions.checkArgument(computeForwardGraph || computeBackwardGraph);
 
     this.compiler = compiler;
@@ -221,11 +218,11 @@ public final class CallGraph implements CompilerPass {
    * AST traversal.
    */
   private void createFunctionsAndCallsites(Node jsRoot,
-      final DefinitionProvider provider) {
+                                           final NameBasedDefinitionProvider provider) {
     // Create fake function representing global execution
     mainFunction = createFunction(jsRoot);
 
-    NodeTraversal.traverseEs6(
+    NodeTraversal.traverse(
         compiler,
         jsRoot,
         new AbstractPostOrderCallback() {
@@ -296,7 +293,7 @@ public final class CallGraph implements CompilerPass {
    *    targets of callsites.
    */
   private void connectCallsiteToTargets(Callsite callsite,
-      DefinitionProvider definitionProvider) {
+                                        NameBasedDefinitionProvider definitionProvider) {
     Collection<Definition> definitions =
         lookupDefinitionsForTargetsOfCall(callsite.getAstNode(),
             definitionProvider);
@@ -425,10 +422,10 @@ public final class CallGraph implements CompilerPass {
   }
 
   private static void digraphConnect(DiGraph<Function, Callsite> digraph,
-      Function caller,
-      Callsite callsite,
-      Function callee,
-      boolean forward) {
+                                     Function caller,
+                                     Callsite callsite,
+                                     Function callee,
+                                     boolean forward) {
 
     Function source;
     Function destination;
@@ -456,7 +453,7 @@ public final class CallGraph implements CompilerPass {
    * @param forward If true then the digraph will be a forward digraph.
    */
   private DiGraph<Function, Callsite> constructDirectedGraph(boolean forward) {
-    DiGraph<Function, Callsite>digraph =
+    DiGraph<Function, Callsite> digraph =
         LinkedDirectedGraph.createWithoutAnnotations();
 
     // Create nodes in call graph
@@ -495,7 +492,7 @@ public final class CallGraph implements CompilerPass {
    * targets of the given callsite node.
    */
   private Collection<Definition> lookupDefinitionsForTargetsOfCall(
-      Node callsite, DefinitionProvider definitionProvider) {
+          Node callsite, NameBasedDefinitionProvider definitionProvider) {
     Preconditions.checkArgument(
         NodeUtil.isCallOrNew(callsite), "Expected CALL or NEW. Got:", callsite);
 

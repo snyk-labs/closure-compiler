@@ -2638,6 +2638,7 @@ public abstract class AbstractCommandLineRunner<A extends Compiler,
       return this;
     }
 
+    @SuppressWarnings("InjectedReferences")
     private String charset = "";
 
     /**
