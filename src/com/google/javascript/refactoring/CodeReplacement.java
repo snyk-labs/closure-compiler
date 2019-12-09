@@ -31,7 +31,7 @@ public abstract class CodeReplacement {
   }
 
   static CodeReplacement create(int startPosition, int length, String newContent, String sortKey) {
-    return new AutoValue_CodeReplacement(startPosition, length, newContent, sortKey);
+    return null;
   }
 
   /**
